@@ -4,20 +4,30 @@ using UnityEngine;
 
 public class Mover : MonoBehaviour
 {
-	[SerializeField] float MoveSpeed = 1;
-	enum Direction { x, y, z };
-	Vector3 directionVector = Vector3.zero;
-	[SerializeField] Direction direction;
+	[SerializeField] float MoveSpeed;
 
 	// Start is called before the first frame update
 	void Start()
 	{
-		directionVector[(int)direction] = MoveSpeed;
+		PrintInstructions();
 	}
 
 	// Update is called once per frame
 	void Update()
 	{
-		transform.Translate(directionVector * Time.deltaTime);
+		MovePlayer();
+	}
+
+	private void MovePlayer()
+	{
+		float xInput = Input.GetAxis("Horizontal");
+		float zInput = Input.GetAxis("Vertical");
+		Vector3 translation = new Vector3(xInput, 0, Input.GetAxis("Vertical"));
+		transform.Translate(translation * MoveSpeed * Time.deltaTime);
+	}
+
+	void PrintInstructions()
+	{
+		Debug.Log("Move using the WASD keys");
 	}
 }
